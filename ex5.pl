@@ -69,7 +69,9 @@ not_member(X, [Y|Ys]) :- X \= Y,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% To Do
 
 % Signature: pick_me_up(Child_name,Phone)/2
-% Purpose:
+% Purpose: relation between a child name and its parent phone number, when the parent has a car
+pick_me_up(C, P) :- parents(C, X, _Y), parent_details(X, P, true).
+pick_me_up(C, P) :- parents(C, _X, Y), parent_details(Y, P, true).
 
 
 % Signature: active_child(Name)/1
