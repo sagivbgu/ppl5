@@ -79,8 +79,8 @@ pick_me_up(C, P) :- parents(C, _X, Y), parent_details(Y, P, true).
 active_child(C) :- participate(C, A), participate(C, B), A \= B.
 
 % Signature: activity_participants_list(Name, List)/2
-% Purpose:
-%
+% Purpose: relationship between an activity name and list of all the children's names that participate at this activity (without repetition)
+activity_participants_list(Name, List) :- bagof(Child, participate(Child, Name), Bag), Bag=List.
 
 % Signature: can_register(Child_name,Activity)/2
 % Purpose:
