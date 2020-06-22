@@ -19,7 +19,7 @@ maximum_printing_depth(100).
    (select(max_depth(_), A, B), ! ; A = B),
    maximum_printing_depth(MPD),
    set_prolog_flag(toplevel_print_options, [max_depth(MPD)|B]).
-   
+
 % Signature: activity(Name,Day)/2
 % Purpose: describe an activity at the country club and the day it takes place
 %
@@ -75,8 +75,8 @@ pick_me_up(C, P) :- parents(C, _X, Y), parent_details(Y, P, true).
 
 
 % Signature: active_child(Name)/1
-% Purpose:
-%
+% Purpose: true when a child participates in at least two activities
+active_child(C) :- participate(C, A), participate(C, B), A \= B.
 
 % Signature: activity_participants_list(Name, List)/2
 % Purpose:
