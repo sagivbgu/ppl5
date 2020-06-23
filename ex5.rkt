@@ -67,7 +67,11 @@
 
 (define find-first
   (lambda (lz-lst p)
-   @TODO
+   (if (empty-lzl? lz-lst) 
+    'fail
+    (if (p (head lz-lst)) 
+      (head lz-lst) 
+      (find-first (tail lz-lst) p)))
   )
 )
 
