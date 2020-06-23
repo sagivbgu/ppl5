@@ -3,7 +3,11 @@
          parents/3,
          participate/2,
          parent_details/3,
-         not_member/2
+         not_member/2,
+         pick_me_up/2,
+         active_child/1,
+         activity_participants_list/2,
+         can_register/2
         ]).
 
 /*
@@ -80,9 +84,16 @@ active_child(C) :- participate(C, A), participate(C, B), A \= B.
 
 % Signature: activity_participants_list(Name, List)/2
 % Purpose: relationship between an activity name and list of all the children's names that participate at this activity (without repetition)
-activity_participants_list(Name, List) :- bagof(Child, participate(Child, Name), Bag), Bag=List.
+activity_participants_list(Name, List) :- bagof(Child, participate(Child, Name), List).
+
+% Signature: child_active_day(Child_name, Day)/2
+% Purpose: relation between a child name and a day which the child is registered to an activity in that day.
+child_active_day(C, D) :- participate(C, A), activity(A, D).
+
+% Signature: child_active_days(Child_name, Days_list)/2
+% Purpose: relation between a child name and list of days which the child is registered to activities in those days.
+child_active_days(C, Ds) :- bagof(D, child_active_day(C, D), Ds).
 
 % Signature: can_register(Child_name,Activity)/2
-% Purpose:
-%
-
+% Purpose: relation between a child name and an activity that the child can register to (the child is available at the day the activity takes place).
+can_register(C, A) :- activity(A, D), child_active_days(C, Ds), not_member(D, Ds).
