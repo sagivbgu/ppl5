@@ -121,6 +121,21 @@
   )
 )
 
+;;Signature: flatten(lst)
+;;Purpose: Takes a nested list and returns a flattened list contains all the original values in the first depth
+;;         if a value is equal to 'fail - ignores the value
+;;Type: [<List<Pair<T,List>> -> List<T>]
+;;Tests: 
+;;(define l1 '(2 (5 ())))
+;;(define l2 '(fail (fail ())))
+;;(flatten l1) --> '(2 5)
+;;(flatten l2) --> '()
+(define (flatten lst)
+    (cond ((empty? lst) '())
+          ((list? (car lst)) (append (flatten (car lst)) (flatten (cdr lst))))
+          ((eq? 'fail (car lst)) (flatten (cdr lst)))
+          (else (cons (car lst) (flatten (cdr lst))))))
+
 ;;Signature: collect-all-values(list-assoc-lists, key)
 ;;Purpose: Returns a list of all values of the first occurrence of 'key' in each of the given association lists. If no such value, returns the empty list.
 ;;Type: [List<List<Pair<Symbol,T>>>*Symbol -> List<T>]
@@ -129,17 +144,20 @@
 ;;(define l2 '((e . 5) (f . 6)))
 ;;(collect-all-values (list l1 l2) 'e) --> '(2 5)
 ;;(collect-all-values (list l1 l2) 'k)--> '()
-
 (define collect-all-values-1
  (lambda (lists key)
-  @TODO
+  (if (empty? lists)
+   '()
+    (flatten (list (get-value (car lists) key) 
+                   (collect-all-values-1 (cdr lists) key))))
  )
 )
 
 (define collect-all-values-2
  (lambda (lists key)
-  @TODO
+  (if (empty? lists)
+   '()
+    (flatten (list (get-value$ (car lists) key (lambda (x) x) (lambda () '()))
+                   (collect-all-values-2 (cdr lists) key))))
  )
 )
-   
-   
